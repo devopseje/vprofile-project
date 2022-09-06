@@ -1,0 +1,28 @@
+pipeline {
+       agent any
+       tools {
+        maven 'Maven3'
+       }
+
+       environement{
+          SNAP_REPO = 'eje-vprofile-snapshot'
+          NEXUS_USER = 'admin'
+          NEXUS_PASS = 'Mastereje5'
+          RELEASE_REPO = 'eje-vprofile-release'  
+          CENTRAL_REPO = 'eje-vpro-maven-central'
+          NEXUSIP = '35.180.192.218'
+          NEXUSPORT = '8081'
+          NEXUS_GRP_REPO = 'eje-vprofile-group'
+          NEXUS_LOGIN = 'nexuslogin'
+            
+       }
+
+
+       stages {
+            stage('build'){
+               sh 'mvn -s settings.xml -DskipTests=true'
+            }
+          }
+       }
+     
+       
