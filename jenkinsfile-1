@@ -4,7 +4,7 @@ pipeline {
         maven 'Maven3'
        }
 
-       environement{
+       environement {
           SNAP_REPO = 'eje-vprofile-snapshot'
           NEXUS_USER = 'admin'
           NEXUS_PASS = 'Mastereje5'
@@ -19,7 +19,7 @@ pipeline {
 
 
        stages {
-            stage('build'){
+            stage('build') {
                sh 'mvn -s settings.xml -DskipTests=true'
             }
           }
