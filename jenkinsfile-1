@@ -10,7 +10,7 @@ pipeline {
           NEXUS_PASS = 'Mastereje5'
           RELEASE_REPO = 'eje-vprofile-release'  
           CENTRAL_REPO = 'eje-vpro-maven-central'
-          NEXUSIP = '35.180.192.218'
+          NEXUSIP = '172.31.43.164'
           NEXUSPORT = '8081'
           NEXUS_GRP_REPO = 'eje-vprofile-group'
           NEXUS_LOGIN = 'nexuslogin'
