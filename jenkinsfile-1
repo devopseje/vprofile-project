@@ -11,15 +11,24 @@ pipeline {
        }
 
        environment {
-          SNAP_REPO = 'eje-vprofile-snapshot'
-          NEXUS_USER = 'admin'
-          NEXUS_PASS = 'Mastereje5'
-          RELEASE_REPO = 'eje-vprofile-release'  
-          CENTRAL_REPO = 'eje-vpro-maven-central'
-          NEXUSIP = '172.31.43.164'
-          NEXUSPORT = '8081'
-          NEXUS_GRP_REPO = 'eje-vprofile-group'
-          NEXUS_LOGIN = 'nexuslogin'
+          NEXUS_VERSION = "nexus3"
+          NEXUS_PROTOCOL = "http"
+          NEXUS_URL = "172.31.43.164:8081"
+          NEXUS_REPOSITORY = "eje-vprofile-release"
+          NEXUS_REPO_ID    = "eje-vprofile-release"
+          NEXUS_CREDENTIAL_ID = "nexuslogin"
+          ARTVERSION = "${env.BUILD_ID}"
+
+
+        //  SNAP_REPO = 'eje-vprofile-snapshot'
+       //   NEXUS_USER = 'admin'
+      //    NEXUS_PASS = 'Mastereje5'
+      //    RELEASE_REPO = 'eje-vprofile-release'  
+      //    CENTRAL_REPO = 'eje-vpro-maven-central'
+      //    NEXUSIP = '172.31.43.164'
+      //    NEXUSPORT = '8081'
+      //    NEXUS_GRP_REPO = 'eje-vprofile-group'
+      //    NEXUS_LOGIN = 'nexuslogin'
           SONARSERVER = 'sonarserver1'
           SONARSCANNER = 'sonarscanner'
             
@@ -79,25 +88,42 @@ pipeline {
                }
             }
 
-            stage('UploadArtetifact'){
-               steps{
-                    nexusArtifactUploader(
-                         nexusVersion: 'nexus3',
-                         protocol: 'http',
-                         nexusUrl: '${NEXUSIP}:${NEXUSPORT}',
-                         groupId: 'QA',
-                         version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
-                         repository: '${RELEASE_REPO}',
-                         credentialsId: '${NEXUS_LOGIN}',
-                         artifacts: [
-                              [artifactId: 'vproapp',
-                              classifier: '',
-                              file: 'target/vprofile-v2.war',
-                              type: 'war']
-                         ]
-                         )
+            stage("Publish to Nexus Repository Manager") {
+               steps {
+                   script {
+                       pom = readMavenPom file: "pom.xml";
+                       filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
+                       echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
+                       artifactPath = filesByGlob[0].path;
+                       artifactExists = fileExists artifactPath;
+                       if(artifactExists) {
+                           echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version} ARTVERSION";
+                           nexusArtifactUploader(
+                               nexusVersion: NEXUS_VERSION,
+                               protocol: NEXUS_PROTOCOL,
+                               nexusUrl: NEXUS_URL,
+                               groupId: pom.groupId,
+                               version: ARTVERSION,
+                               repository: NEXUS_REPOSITORY,
+                               credentialsId: NEXUS_CREDENTIAL_ID,
+                               artifacts: [
+                                   [artifactId: pom.artifactId,
+                                   classifier: '',
+                                   file: artifactPath,
+                                   type: pom.packaging],
+                                   [artifactId: pom.artifactId,
+                                   classifier: '',
+                                   file: "pom.xml",
+                                   type: "pom"]
+                               ]
+                           );
+                       } 
+                 else {
+                           error "*** File: ${artifactPath}, could not be found";
+                       }
+                   }
                }
-            }
+           }
           }
           post {
                always {
