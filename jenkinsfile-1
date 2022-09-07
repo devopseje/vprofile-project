@@ -1,3 +1,8 @@
+
+def COLOR_MAP = [
+     'SUCCESS': 'good',
+     'FAILURE': 'danger'
+]
 pipeline {
        agent any
        tools {
@@ -14,7 +19,7 @@ pipeline {
           NEXUSIP = '172.31.43.164'
           NEXUSPORT = '8081'
           NEXUS_GRP_REPO = 'eje-vprofile-group'
-          NEXUS_LOGIN = 'Mastereje5'
+          NEXUS_LOGIN = 'nexuslogin'
           SONARSERVER = 'sonarserver1'
           SONARSCANNER = 'sonarscanner'
             
@@ -93,6 +98,14 @@ pipeline {
                          )
                }
             }
+          }
+          post {
+               always {
+                    echo 'Slack Notifications'
+                    slackSend chanel: '#vpro-pro',
+                    color: COLOR_MAP[currentBuild.currentResult],
+                    message: '*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}'
+               }
           }
        }
      
