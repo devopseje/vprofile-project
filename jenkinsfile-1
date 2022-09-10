@@ -29,6 +29,7 @@ pipeline {
       //    NEXUSPORT = '8081'
       //    NEXUS_GRP_REPO = 'eje-vprofile-group'
       //    NEXUS_LOGIN = 'nexuslogin'
+      //    ejemaster
           SONARSERVER = 'sonarserver1'
           SONARSCANNER = 'sonarscanner'
             
