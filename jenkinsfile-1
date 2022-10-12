@@ -135,7 +135,8 @@ pipeline {
                        credentialsId: 'applogin',
                        disableHostKeyChecking: true,
                        extraVars  : [
-                           credentialsId: "${NEXUS_CREDENTIAL_ID}",
+                           USER: "admin",
+                           PASS: "Mastereje5"
                            nexusip : "172.31.43.164",
                            reponame: "eje-vprofile-release",
                            groupid : "com.visualpathit",
