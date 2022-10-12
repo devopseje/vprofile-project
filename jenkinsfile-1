@@ -136,7 +136,7 @@ pipeline {
                        disableHostKeyChecking: true,
                        extraVars  : [
                            USER: "admin",
-                           PASS: "Mastereje5"
+                           PASS: "Mastereje5",
                            nexusip : "172.31.43.164",
                            reponame: "eje-vprofile-release",
                            groupid : "com.visualpathit",
