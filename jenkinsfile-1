@@ -124,6 +124,31 @@ pipeline {
                    }
                }
            }
+
+          stage('ansible deploy to staging'){
+               steps {
+                    ansiblePlaybook([
+                       inventory : 'ansible/stage.inventory',
+                       playbook  : 'ansible/site.yml',
+                       installation: 'ansible'
+                       colorized: true,
+                       credentialsId: 'applogin',
+                       disableHostKeyChecking: true,
+                       extraVars  : [
+                           credentialsId: "${NEXUS_CREDENTIAL_ID}",
+                           nexusip : "172.31.43.164",
+                           reponame: "eje-vprofile-release",
+                           groupid : "com",
+                           time : "${env.Build_TIMESTAMP}",
+                           build: "${env.BUILD_ID}",
+                           artifactid: "vproapp",
+                           vprofile_version: "vproapp-${env.BUILD_ID}-${env.BUILD_TIMESTAMP}.war"
+
+                       ]  
+                    ])
+               }
+          }
+
           }
           post {
                always {
