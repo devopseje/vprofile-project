@@ -140,7 +140,7 @@ pipeline {
                            PASS: "${NEXUSPASS}",
                            nexusip : "172.31.43.164",
                            reponame: "eje-vprofile-release",
-                           groupid : "com.visualpathit",
+                           groupid : "com/visualpathit",
                            time : "${env.Build_TIMESTAMP}",
                            build: "${env.BUILD_ID}",
                            artifactid: "vproapp",
