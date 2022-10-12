@@ -18,6 +18,7 @@ pipeline {
           NEXUS_REPO_ID    = "eje-vprofile-release"
           NEXUS_CREDENTIAL_ID = "nexuslogin"
           ARTVERSION = "${env.BUILD_ID}"
+          NEXUSPASS = credentials('nexuspass')
 
 
         //  SNAP_REPO = 'eje-vprofile-snapshot'
@@ -136,7 +137,7 @@ pipeline {
                        disableHostKeyChecking: true,
                        extraVars  : [
                            USER: "admin",
-                           PASS: "Mastereje5",
+                           PASS: "${NEXUSPASS}",
                            nexusip : "172.31.43.164",
                            reponame: "eje-vprofile-release",
                            groupid : "com.visualpathit",
