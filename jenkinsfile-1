@@ -130,7 +130,7 @@ pipeline {
                     ansiblePlaybook([
                        inventory : 'ansible/stage.inventory',
                        playbook  : 'ansible/site.yml',
-                       installation: 'ansible'
+                       installation: 'ansible',
                        colorized: true,
                        credentialsId: 'applogin',
                        disableHostKeyChecking: true,
