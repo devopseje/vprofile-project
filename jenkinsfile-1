@@ -31,7 +31,7 @@ pipeline {
       //    NEXUS_LOGIN = 'nexuslogin'
           SONARSERVER = 'sonarserver1'
           SONARSCANNER = 'sonarscanner'
-          ARTTIFACT_NAME = 'vprofile-v${BUILD_ID}.war'
+          ARTIFACT_NAME = 'vprofile-v${BUILD_ID}.war'
           AWS_S3_BUCKET = 'eje-vpro-bean'
           AWS_EB_APP_NAME = 'eje-vpro-bean'
           AWS_EB_ENVIRONMENT_NAME = 'Ejevprobean-env'
