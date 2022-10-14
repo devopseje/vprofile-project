@@ -35,7 +35,7 @@ pipeline {
           AWS_S3_BUCKET = 'eje-vpro-bean'
           AWS_EB_APP_NAME = 'eje-vpro-bean'
           AWS_EB_ENVIRONMENT_NAME = 'Ejevprobean-env'
-          AWS_EB_APP_VERSION = '${BUILD_ID}'
+          AWS_EB_APP_VERSION = "${BUILD_ID}"
             
        }
 
