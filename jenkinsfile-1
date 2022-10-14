@@ -18,7 +18,7 @@ pipeline {
           NEXUS_REPO_ID    = "eje-vprofile-release"
           NEXUS_CREDENTIAL_ID = "nexuslogin"
           ARTVERSION = "${env.BUILD_ID}"
-
+          
 
         //  SNAP_REPO = 'eje-vprofile-snapshot'
        //   NEXUS_USER = 'admin'
@@ -31,6 +31,11 @@ pipeline {
       //    NEXUS_LOGIN = 'nexuslogin'
           SONARSERVER = 'sonarserver1'
           SONARSCANNER = 'sonarscanner'
+          ARTTIFACT_NAME = 'vprofile-v${BUILD_ID}.war'
+          AWS_S3_BUCKET = 'eje-vpro-bean'
+          AWS_EB_APP_NAME = 'eje-vpro-bean'
+          AWS_EB_ENVIRONMENT_NAME = 'Ejevprobean-env'
+          AWS_EB_APP_VERSION = '${BUILD_ID}'
             
        }
 
@@ -124,6 +129,16 @@ pipeline {
                    }
                }
            }
+           stage('Deploy to Stage bean'){
+               steps {
+                    withAWS(credentials: 'awscreds', region: 'eu-west-3') {
+                    sh 'aws s3 cp ./target/vprofile-v2.war s3://$AWS_S3_BUCKET/$ARTIFACT_NAME'
+                    sh 'aws elasticbeanstalk create-application-version --application-name $AWS_EB_APP_NAME --version-label $AWS_EB_APP_VERSION --source-bundle S3Bucket=$AWS_S3_BUCKET,S3Key=$ARTIFACT_NAME'
+                    sh 'aws elasticbeanstalk update-environment --application-name $AWS_EB_APP_NAME --environment-name $AWS_EB_ENVIRONMENT --version-label $AWS_EB_APP_VERSION '   
+                    }
+               }
+           }
+           
           }
           post {
                always {
