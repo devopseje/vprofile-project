@@ -55,6 +55,7 @@ pipeline {
           }
           post {
                always {
+
                     echo 'Slack Notifications'
                     slackSend channel: '#vpro-pro',
                     color: COLOR_MAP[currentBuild.currentResult],
