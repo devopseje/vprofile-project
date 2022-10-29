@@ -1,8 +1,8 @@
 # Variables
 CLUSTER_NAME=vprofile-eks-cluster
-REGION=us-east-2
+REGION=eu-west-2
 NODE_NAME=Linux-nodes
-KEY_NAME=vprofile-eks-key
+KEY_NAME=Eje-vprofile-eks-key
 
 # Set AWS credentials before script execution
 
@@ -19,9 +19,9 @@ then
   --nodegroup-name $NODE_NAME \
   --nodes 2 \
   --nodes-min 1 \
-  --nodes-max 4 \
-  --node-type t3.micro \
-  --node-volume-size 8 \
+  --nodes-max 3 \
+  --node-type t2.medium \
+  --node-volume-size 16 \
   --ssh-access \
   --ssh-public-key $KEY_NAME \
   --managed
